@@ -1,4 +1,4 @@
-package org.example.infrastructure.redis;
+package org.example.infrastructure.persistent.redis;
 
 import org.redisson.api.*;
 import org.springframework.stereotype.Service;

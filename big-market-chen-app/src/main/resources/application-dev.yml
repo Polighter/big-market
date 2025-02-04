@@ -15,8 +15,21 @@ thread:
 # 数据库配置 - sharding-jdbc 分库分表
 spring:
   datasource:
-    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:sharding/sharding-jdbc-dev.yaml
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.139.102:13306/big-market-chen?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  hikari:
+    pool-name: Retail_HikariCP
+    minimum-idle: 15 #最小空闲连接数量
+    idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+    maximum-pool-size: 25 #连接池最大连接数，默认是10
+    auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+    max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+    connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+    connection-test-query: SELECT 1
+  type: com.zaxxer.hikari.HikariDataSource
+
 
 mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
@@ -26,8 +39,8 @@ mybatis:
 redis:
   sdk:
     config:
-      host: 127.0.0.1
-      port: 6379
+      host: 192.168.139.102
+      port: 16379
       password: 123456
       pool-size: 10
       min-idle-size: 5
@@ -41,11 +54,11 @@ redis:
 # Dubbo
 dubbo:
   application:
-    name: xfg-frame-archetype-std
+    name: big-market-chen
     version: 1.0.0
   registry:
     id: nacos-registry
-    address: nacos://127.0.0.1:8848
+    address: nacos://192.168.139.102:8848
   protocol:
     name: dubbo
     port: -1
@@ -54,7 +67,7 @@ dubbo:
 
 # RocketMQ 配置，在docs/dev-ops下，有创建 xfg-group 脚本，也有场景mq消息的脚本
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: 192.168.139.102:9876
   consumer:
     group: xfg-group
     # 一次拉取消息最大值，注意是拉取消息的最大值而非消费最大值
@@ -82,7 +95,7 @@ xxl:
     accessToken: default_token
     # 注册地址
     admin:
-      addresses: http://localhost:9090/xxl-job-admin
+      addresses: http://192.168.139.102:9090/xxl-job-admin
     # 注册执行器
     executor:
       #  执行器注册 [选填]：优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址。从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。

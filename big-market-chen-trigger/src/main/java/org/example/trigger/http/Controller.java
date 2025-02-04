@@ -1,4 +1,4 @@
-package org.example.xfg.frame.trigger.http;
+package org.example.trigger.http;
 
 import org.example.types.common.Constants;
 import org.example.types.model.Response;

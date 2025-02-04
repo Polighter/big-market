@@ -1,6 +1,6 @@
 package org.example.test.infrastructure.persistent;
 
-import org.example.infrastructure.redis.IRedisService;
+import org.example.infrastructure.persistent.redis.IRedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
