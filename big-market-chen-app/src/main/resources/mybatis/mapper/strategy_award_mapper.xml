@@ -9,7 +9,7 @@
         <result column="award_title" property="awardTitle"/>
         <result column="award_subtitle" property="awardSubtitle"/>
         <result column="award_count" property="awardCount"/>
-        <result column="award_countSurplus" property="awardCountSurplus"/>
+        <result column="award_count_surplus" property="awardCountSurplus"/>
         <result column="award_rate" property="awardRate"/>
         <result column="rule_models" property="ruleModels"/>
         <result column="sort" property="sort"/>
@@ -20,9 +20,15 @@
     </resultMap>
 
     <select id="queryStrategyAwardList" resultMap="dataMap">
-        select award_id,award_config,award_desc
-        from award
+        select award_id
+        from strategy_award
         limit 10
+    </select>
+    <select id="queryStrategyAwardListByStrategyId"
+            resultMap="dataMap">
+        select strategy_id,award_id,award_count,award_count_surplus,award_rate
+        from strategy_award
+        where strategy_id = #{strategy_id}
     </select>
 
 

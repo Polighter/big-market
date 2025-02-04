@@ -35,6 +35,8 @@ public class RedissonService implements IRedisService {
         return redissonClient.getQueue(key);
     }
 
+    public <k,v> RMap<k,v> getMap(String key) { return redissonClient.getMap(key); }
+
     @Override
     public <T> RBlockingQueue<T> getBlockingQueue(String key) {
         return redissonClient.getBlockingQueue(key);
@@ -100,9 +102,9 @@ public class RedissonService implements IRedisService {
         map.put(field, value);
     }
 
-    public String getFromMap(String key, String field) {
-        RMap<String, String> map = redissonClient.getMap(key);
-        return map.get(field);
+    public Integer getFromMap(String key, Integer field) {
+        RMap<String, Integer> map = redissonClient.getMap(key);
+        return  map.get(field);
     }
 
     public void addToSortedSet(String key, String value) {

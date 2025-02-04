@@ -158,7 +158,7 @@ public interface IRedisService {
      * @param field 字段
      * @return 值
      */
-    String getFromMap(String key, String field);
+    Integer getFromMap(String key, Integer field);
 
     /**
      * 将指定的值添加到有序集合中
@@ -228,4 +228,5 @@ public interface IRedisService {
      */
     <T> RBloomFilter<T> getBloomFilter(String key);
 
+    <k,v> RMap<k,v> getMap(String strategyId100001);
 }
