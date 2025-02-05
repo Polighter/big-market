@@ -22,7 +22,6 @@ public class StrategyRuleEntity {
     private String ruleModel;
     private String ruleValue;
     private String ruleDesc;
-
     /*
     * 获取权重值
     * 数据案例： 4000：102，103，104 5000：102，103，104 6000：102，103，104
@@ -45,7 +44,7 @@ public class StrategyRuleEntity {
             for(String valueString : valueStrings){
                 values.add(Integer.parseInt(valueString));
             }
-            resultMap.put(parts[0],values);
+            resultMap.put(ruleValueGroup,values);
         }
         return resultMap;
     }

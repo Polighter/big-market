@@ -34,12 +34,12 @@ public class StrategyArmoryTest {
 
     @Test
     public void test_getAssembleRandomVal_ruleWeightValue(){
-        log.info("测试结果{} - 4000策略" ,strategyDispatch.getRandomAwardId(100001L,"4000"));
-        log.info("测试结果{} - 4000策略" ,strategyDispatch.getRandomAwardId(100001L,"4000"));
-        log.info("测试结果{} - 4000策略" ,strategyDispatch.getRandomAwardId(100001L,"4000"));
-        log.info("测试结果{} - 6000策略" ,strategyDispatch.getRandomAwardId(100001L,"6000"));
-        log.info("测试结果{} - 6000策略" ,strategyDispatch.getRandomAwardId(100001L,"6000"));
-        log.info("测试结果{} - 6000策略" ,strategyDispatch.getRandomAwardId(100001L,"6000"));
+        log.info("测试结果{} - 4000策略" ,strategyDispatch.getRandomAwardId(100001L,"4000:101,102,103,104"));
+        log.info("测试结果{} - 4000策略" ,strategyDispatch.getRandomAwardId(100001L,"4000:101,102,103,104"));
+        log.info("测试结果{} - 4000策略" ,strategyDispatch.getRandomAwardId(100001L,"4000:101,102,103,104"));
+        log.info("测试结果{} - 6000策略" ,strategyDispatch.getRandomAwardId(100001L,"6000:102,103,104,105,106,107,108,109"));
+        log.info("测试结果{} - 6000策略" ,strategyDispatch.getRandomAwardId(100001L,"6000:102,103,104,105,106,107,108,109"));
+        log.info("测试结果{} - 6000策略" ,strategyDispatch.getRandomAwardId(100001L,"6000:102,103,104,105,106,107,108,109"));
     }
 
 }
