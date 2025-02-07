@@ -118,5 +118,16 @@ public class StrategyRepository implements IStrategyRepository {
                 .build();
     }
 
+    @Override
+    public String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel) {
+        StrategyRule strategyRule = new StrategyRule();
+        strategyRule.setStrategyId(strategyId);
+        strategyRule.setAwardId(awardId);
+        strategyRule.setRuleModel(ruleModel);
+        //数据库查询出来的依然是数据库类，哪怕就是一个数据也要用数据库类来接
+        StrategyRule strategyRuleRep =  strategyRuleDao.queryStrategyRuleValue(strategyRule);
+        return strategyRuleRep.getRuleValue();
+    }
+
 
 }
