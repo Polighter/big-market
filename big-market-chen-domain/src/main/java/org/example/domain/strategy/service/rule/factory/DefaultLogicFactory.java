@@ -37,6 +37,7 @@ public class DefaultLogicFactory {
 
         RULE_WIGHT("rule_weight","【抽奖前规则】根据抽奖权重返回可抽奖范围KEY"),
         RULE_BLACKLIST("rule_blacklist","【抽奖前规则】黑名单规则过滤，命中黑名单则直接返回"),
+        RUlE_WHITELIST("rule_whitelist","【抽奖前规则】白名单规则过滤，命中白名单直接返回")
 
         ;
 
