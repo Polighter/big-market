@@ -20,12 +20,13 @@ public class StrategyEntity {
     private String ruleModels;
 
     public String[] ruleModels(){
-        if(ruleModels.isEmpty())return null;
+        if(ruleModels == null || ruleModels.isEmpty())return null;
         return ruleModels.split(Constants.SPLIT);
     }
 
     public String getRuleModels(){
         String[] ruleModels = this.ruleModels();
+        if(ruleModels == null) return null;
         for(String ruleModel : ruleModels){
             if("rule_weight".equals(ruleModel))return ruleModel;
         }

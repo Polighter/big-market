@@ -16,7 +16,7 @@ import java.util.*;
 
 @Slf4j
 @Component
-@LogicStrategy(logicMode = DefaultLogicFactory.LogicModel.RULE_WIGHT)
+@LogicStrategy(logicMode = DefaultLogicFactory.LogicModel.RULE_WEIGHT)
 public class RuleWeightLogicFilter implements ILogicFilter<RuleActionEntity.RaffleBeforeEntity> {
 
     @Resource
@@ -65,7 +65,7 @@ public class RuleWeightLogicFilter implements ILogicFilter<RuleActionEntity.Raff
                             .strategyId(strategyId)
                             .ruleWeightValueKey(analyticalValueGroup.get(nextValue))
                             .build())
-                    .ruleModel(DefaultLogicFactory.LogicModel.RULE_WIGHT.getCode())
+                    .ruleModel(DefaultLogicFactory.LogicModel.RULE_WEIGHT.getCode())
                     .code(RuleLogicCheckTypeVO.TAKE_OVER.getCode())
                     .info(RuleLogicCheckTypeVO.TAKE_OVER.getInfo())
                     .build();

@@ -37,5 +37,33 @@ public class RuleActionEntity<T extends RuleActionEntity.RaffleEntity> {
         private String ruleWeightValueKey;
     }
 
+    @EqualsAndHashCode(callSuper = true)
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class RaffleCenterEntity extends RaffleEntity{
+        private Long strategyId;
+        /*奖品Id，返回抽中的奖品*/
+        private Integer awardId;
+
+        /*规则权重值,用于权重抽奖*/
+        private String ruleWeightValueKey;
+    }
+
+    @EqualsAndHashCode(callSuper = true)
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class RaffleAfterEntity extends RaffleEntity{
+        private Long strategyId;
+        /*奖品Id，返回抽中的奖品*/
+        private Integer awardId;
+
+        /*规则权重值,用于权重抽奖*/
+        private String ruleWeightValueKey;
+    }
+
 
 }

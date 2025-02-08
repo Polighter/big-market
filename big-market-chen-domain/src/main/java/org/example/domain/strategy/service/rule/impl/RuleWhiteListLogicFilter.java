@@ -29,7 +29,7 @@ public class RuleWhiteListLogicFilter implements ILogicFilter<RuleActionEntity.R
         log.info("规则过滤-白名单 userId:{} strategyId:{} ruleModel:{}", ruleMatterEntity.getUserId(), ruleMatterEntity.getStrategyId(), ruleMatterEntity.getRuleModel());
         String userId = ruleMatterEntity.getUserId();
 
-        // 查询规则值配置
+        // 查询规则值配置 ruleValue : 109:cqy
         String ruleValue = repository.queryStrategyRuleValue(ruleMatterEntity.getStrategyId(), ruleMatterEntity.getAwardId(), ruleMatterEntity.getRuleModel());
         String[] splitRuleValue = ruleValue.split(Constants.COLON);
         Integer awardId = Integer.parseInt(splitRuleValue[0]);

@@ -30,6 +30,11 @@
         from strategy_award
         where strategy_id = #{strategy_id}
     </select>
+    <select id="queryStrategyRuleModel" resultMap="dataMap">
+        select rule_models
+        from strategy_award
+        where strategy_id = #{strategyId} and award_id = #{awardId}
+    </select>
 
 
 </mapper>
