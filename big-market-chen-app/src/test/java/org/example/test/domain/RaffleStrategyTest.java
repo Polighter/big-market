@@ -7,8 +7,8 @@ import org.example.domain.strategy.model.entity.RaffleFactorEntity;
 import org.example.domain.strategy.service.IRaffleStrategy;
 import org.example.domain.strategy.service.armory.IStrategyArmory;
 import org.example.domain.strategy.service.armory.IStrategyDispatch;
+import org.example.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
 import org.example.domain.strategy.service.rule.filter.impl.RuleLockLogicFilter;
-import org.example.domain.strategy.service.rule.filter.impl.RuleWeightLogicFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 public class RaffleStrategyTest {
 
     @Resource
-    private RuleWeightLogicFilter ruleWeightLogicFilter;
+    private RuleWeightLogicChain ruleWeightLogicChain;
     @Resource
     private RuleLockLogicFilter ruleLockLogicFilter;
 
@@ -38,7 +38,7 @@ public class RaffleStrategyTest {
     @Before
     public void setUp() {
         strategyArmory.assembleLotteryStrategy(100003L);
-        ReflectionTestUtils.setField(ruleWeightLogicFilter, "userScore", 4500L);
+        ReflectionTestUtils.setField(ruleWeightLogicChain, "userScore", 4500L);
         ReflectionTestUtils.setField(ruleLockLogicFilter,"userRaffleCount",0L);
     }
 
