@@ -11,7 +11,8 @@ import org.example.domain.strategy.model.entity.StrategyEntity;
 import org.example.domain.strategy.repository.IStrategyRepository;
 import org.example.domain.strategy.service.IRaffleStrategy;
 import org.example.domain.strategy.service.armory.IStrategyDispatch;
-import org.example.domain.strategy.service.rule.factory.DefaultLogicFactory;
+
+import org.example.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import org.example.types.common.Constants;
 import org.example.types.exception.AppException;
 

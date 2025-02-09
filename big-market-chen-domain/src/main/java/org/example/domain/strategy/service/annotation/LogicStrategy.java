@@ -1,6 +1,7 @@
 package org.example.domain.strategy.service.annotation;
 
-import org.example.domain.strategy.service.rule.factory.DefaultLogicFactory;
+import org.example.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
+
 
 
 import java.lang.annotation.ElementType;

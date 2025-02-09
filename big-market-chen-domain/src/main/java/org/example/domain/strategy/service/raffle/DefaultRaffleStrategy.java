@@ -9,7 +9,8 @@ import org.example.domain.strategy.model.entity.RuleMatterEntity;
 import org.example.domain.strategy.repository.IStrategyRepository;
 import org.example.domain.strategy.service.armory.IStrategyDispatch;
 import org.example.domain.strategy.service.rule.ILogicFilter;
-import org.example.domain.strategy.service.rule.factory.DefaultLogicFactory;
+
+import org.example.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
