@@ -1,12 +1,11 @@
 package org.example.domain.strategy.service.rule.chain.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.domain.strategy.model.VO.RuleLogicCheckTypeVO;
-import org.example.domain.strategy.model.entity.RuleActionEntity;
 import org.example.domain.strategy.repository.IStrategyRepository;
 import org.example.domain.strategy.service.armory.IStrategyDispatch;
 import org.example.domain.strategy.service.rule.chain.AbstractLogicChain;
-import org.example.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
+import org.example.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
+
 import org.example.types.common.Constants;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +25,7 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
     private IStrategyDispatch strategyDispatch;
     public Long userScore = 4500L;
     @Override
-    public Integer logic(String userId, Long strategyId) {
+    public DefaultChainFactory.StrategyAwardVO logic(String userId, Long strategyId) {
         log.info("抽奖责任链-规则权重开始 userId:{} strategyId:{} ruleModel:{}",userId,strategyId,ruleModel());
         String ruleValue = repository.queryStrategyRuleValue(strategyId, ruleModel());
         Map<Long, String> analyticalValueGroup = getAnalyticalValue(ruleValue);
@@ -46,7 +45,11 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
         if (null != nextValue) {
             Integer awardId = strategyDispatch.getRandomAwardId(strategyId, analyticalValueGroup.get(nextValue));
             log.info("抽奖责任链-规则权重接管 userId:{} strategyId:{} ruleModel:{} key:{} awardId:{}",userId,strategyId,ruleModel(),analyticalValueGroup.get(nextValue),awardId);
-            return awardId;
+            return  DefaultChainFactory.StrategyAwardVO.builder()
+                    .awardId(awardId)
+                    .logicModel(ruleModel())
+                    .build()
+                    ;
         }
         return next().logic(userId,strategyId);
     }

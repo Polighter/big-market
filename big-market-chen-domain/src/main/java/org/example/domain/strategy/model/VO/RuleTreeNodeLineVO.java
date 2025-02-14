@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RuleTreeNodeLineVO {
     /*规则树Id*/
-    private Integer treeId;
+    private String treeId;
     /*规则key节点 from*/
     private String ruleNodeFrom;
     /*规则key节点 to*/
@@ -19,5 +19,8 @@ public class RuleTreeNodeLineVO {
     private RuleLimitTypeVO ruleLimitType;
     /*限定值（到下个节点）*/
     private RuleLogicCheckTypeVO ruleLimitValue;
+
+    public RuleTreeNodeLineVO() {
+    }
 
 }

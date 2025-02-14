@@ -2,6 +2,7 @@ package org.example.domain.strategy.repository;
 
 /*策略仓储接口*/
 
+import org.example.domain.strategy.model.VO.RuleTreeVO;
 import org.example.domain.strategy.model.VO.StrategyAwardRuleModelVO;
 import org.example.domain.strategy.model.entity.StrategyAwardEntity;
 import org.example.domain.strategy.model.entity.StrategyEntity;
@@ -31,4 +32,9 @@ public interface IStrategyRepository {
 
 
     StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId);
+
+
+    StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId);
+
+    RuleTreeVO queryRuleTreeVOByTreeId(String ruleModels);
 }

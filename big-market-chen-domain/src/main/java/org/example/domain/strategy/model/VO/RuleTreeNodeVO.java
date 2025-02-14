@@ -13,7 +13,7 @@ import java.util.List;
 public class RuleTreeNodeVO {
 
     /*规则树ID*/
-    private Integer treeId;
+    private String treeId;
     /*规则树key*/
     private String ruleKey;
     /*规则描述*/
@@ -22,4 +22,7 @@ public class RuleTreeNodeVO {
     private String ruleValue;
     /*规则连线*/
     private List<RuleTreeNodeLineVO> treeNodeLineVOList;
+    // 添加默认构造函数
+    public RuleTreeNodeVO() {
+    }
 }
