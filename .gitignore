@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/big-market-chen-app/src/main/resources/rebel.xml
+/big-market-chen-app/jrebel-classpath-31636.jar
+/big-market-chen-api/src/main/resources/rebel.xml
+/big-market-chen-domain/src/main/resources/rebel.xml
+/big-market-chen-infrastructure/src/main/resources/rebel.xml
+/big-market-chen-trigger/src/main/resources/rebel.xml
+/big-market-chen-types/src/main/resources/rebel.xml

@@ -1,15 +1,18 @@
 package org.example.infrastructure.persistent.redis;
 
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Redis 服务 - Redisson
  * @author Fuzhengwei bugstack.cn @小傅哥
  */
+@Slf4j
 @Service("redissonService")
 public class RedissonService implements IRedisService {
 
@@ -36,6 +39,21 @@ public class RedissonService implements IRedisService {
     }
 
     public <k,v> RMap<k,v> getMap(String key) { return redissonClient.getMap(key); }
+
+    @Override
+    public Long getAtomicLong(String key) {
+        return redissonClient.getAtomicLong(key).get();
+    }
+
+    @Override
+    public void setAtomicLong(String key, Integer value) {
+        redissonClient.getAtomicLong(key).set(value);
+    }
+
+    @Override
+    public Boolean setNx(String lockKey) {
+        return redissonClient.getBucket(lockKey).setIfAbsent("lock");
+    }
 
     @Override
     public <T> RBlockingQueue<T> getBlockingQueue(String key) {

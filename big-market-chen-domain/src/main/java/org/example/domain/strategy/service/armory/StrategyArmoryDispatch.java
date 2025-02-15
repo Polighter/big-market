@@ -6,6 +6,7 @@ import org.example.domain.strategy.model.entity.StrategyAwardEntity;
 import org.example.domain.strategy.model.entity.StrategyEntity;
 import org.example.domain.strategy.model.entity.StrategyRuleEntity;
 import org.example.domain.strategy.repository.IStrategyRepository;
+import org.example.types.common.Constants;
 import org.example.types.enums.ResponseCode;
 import org.example.types.exception.AppException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 /*策略配置库,负责初始化策略计算*/
+
 @Slf4j
 @Service
 public class StrategyArmoryDispatch implements IStrategyArmory ,IStrategyDispatch{
@@ -28,13 +30,25 @@ public class StrategyArmoryDispatch implements IStrategyArmory ,IStrategyDispatc
     public boolean assembleLotteryStrategy(Long strategyId) {
         //1.查询策略配置
         List<StrategyAwardEntity> strategyAwardEntities = repository.queryStrategyAwardList(strategyId);
+        // 2 缓存奖品库存【用于decr扣减库存使用】，装配库存
+        for (StrategyAwardEntity strategyAward : strategyAwardEntities) {
+            Integer awardId = strategyAward.getAwardId();
+            Integer awardCount = strategyAward.getAwardCount();
+            String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+            repository.cacheStrategyAwardCount(cacheKey,awardCount);
+            /*cacheStrategyAwardCount(strategyId, awardId, awardCount);*/
+        }
+        //默认抽奖装配
         assembleLotteryStrategy(String.valueOf(strategyId),strategyAwardEntities);
 
-        //2.权重策略配置,适用于rule_weight的权重配置
+
+
+        //3.权重策略配置,适用于rule_weight的权重配置
         StrategyEntity strategyEntity = repository.queryStrategyEntityByStrategyId(strategyId);
         String ruleWeight = strategyEntity.getRuleModels();
         if(null == ruleWeight)return true;
         StrategyRuleEntity strategyRuleEntity = repository.queryStrategyRuleEntity(strategyId, ruleWeight);
+        // 业务异常，策略规则中 rule_weight 权重规则已适用但未配置
         if(null == strategyRuleEntity){
             throw new AppException(ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getCode(),ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getInfo());
         }
@@ -52,6 +66,11 @@ public class StrategyArmoryDispatch implements IStrategyArmory ,IStrategyDispatc
 
         return true;
 
+    }
+
+    private void cacheStrategyAwardCount(Long strategyId, Integer awardId, Integer awardCount) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+        repository.cacheStrategyAwardCount(cacheKey,awardCount);
     }
 
 
@@ -112,6 +131,13 @@ public class StrategyArmoryDispatch implements IStrategyArmory ,IStrategyDispatc
         int rateRange = repository.getRateRange(key);
         //返回随机的奖品id
         return repository.getStrategyAwardAssemble(key,new SecureRandom().nextInt(rateRange));
+    }
+
+    /*库存扣减*/
+    @Override
+    public Boolean subtractionAwardStock(Long strategyId, Integer awardId) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+        return repository.subtractionAwardStock(cacheKey);
     }
 
 

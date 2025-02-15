@@ -229,4 +229,10 @@ public interface IRedisService {
     <T> RBloomFilter<T> getBloomFilter(String key);
 
     <k,v> RMap<k,v> getMap(String strategyId100001);
+
+    Long getAtomicLong(String cacheKey);
+
+    void setAtomicLong(String cacheKey, Integer awardCount);
+
+    Boolean setNx(String lockKey);
 }

@@ -1,5 +1,6 @@
 package org.example.infrastructure.persistent.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.domain.strategy.model.VO.*;
 import org.example.domain.strategy.model.entity.StrategyAwardEntity;
 import org.example.domain.strategy.model.entity.StrategyEntity;
@@ -9,6 +10,8 @@ import org.example.infrastructure.persistent.dao.*;
 import org.example.infrastructure.persistent.po.*;
 import org.example.infrastructure.persistent.redis.IRedisService;
 import org.example.types.common.Constants;
+import org.redisson.api.RBlockingQueue;
+import org.redisson.api.RDelayedQueue;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -17,9 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /*策略仓储实现*/
+@Slf4j
 @Repository
 public class StrategyRepository implements IStrategyRepository {
     @Resource
@@ -201,34 +206,60 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
+    public void cacheStrategyAwardCount(String cacheKey, Integer awardCount) {
+        Integer cacheAwardCount = redisService.getValue(cacheKey);
+        if(null != cacheAwardCount) return;
+        redisService.setValue(cacheKey,awardCount);
+    }
+
+    /*扣减库存*/
+    @Override
+    public Boolean subtractionAwardStock(String cacheKey) {
+        Long surplus = redisService.decr(cacheKey);
+        if(surplus < 0){
+            redisService.setValue(cacheKey,0);
+            return false;
+        }
+        String lockKey = cacheKey + Constants.UNDERLINE + surplus;
+        Boolean lock = redisService.setNx(lockKey);
+        if(!lock){
+            log.info("扣减库存获取锁失败{}",lockKey);
+        }
+        return lock;
+    }
+
+    @Override
+    public void awardStockConsumeSendQueue(StrategyAwardStockKeyVO strategyAwardStockKeyVO) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_QUEUE_KEY;
+        RBlockingQueue<StrategyAwardStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+        RDelayedQueue<StrategyAwardStockKeyVO> delayedQueue = redisService.getDelayedQueue(blockingQueue);
+        delayedQueue.offer(strategyAwardStockKeyVO, 3, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_QUEUE_KEY;
+        RBlockingQueue<StrategyAwardStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+        return blockingQueue.poll();
+
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        StrategyAward strategyAward = new StrategyAward();
+        strategyAward.setAwardId(awardId);
+        strategyAward.setStrategyId(strategyId);
+        strategyAwardDao.updateStrategyAwardStock(strategyAward);
+    }
+
+
+    @Override
     public StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId) {
         StrategyAward award = strategyAwardDao.queryStrategyAwardRule(strategyId,awardId);
         return StrategyAwardRuleModelVO.builder()
                 .ruleModels(award.getRuleModels())
                 .build();
     }
-
-//    @Override
-//    public RuleTreeVO queryRuleTreeVOByTreeId(String ruleModels) {
-//        RuleTree ruleTree = ruleTreeDao.queryRuleTreeByTreeId(ruleModels);
-//        //获取到节点信息，rule_key的列表
-//        List<RuleTreeNode> ruleTreeNodes = ruleTreeNodeDao.queryRuleTreeNodeListByTreeId(ruleModels);
-//
-//        //根据treeId和rule_key查连线信息，并把连线信息列表放入NodeVO，再将NodeVO封装进TreeVO的Map中
-//        for(RuleTreeNode ruleTreeNode : ruleTreeNodes){
-//            List<RuleTreeNodeLineVO> ruleTreeNodeLineVOList = new ArrayList<>();
-//            rule
-//
-//
-//        }
-//
-//        return RuleTreeVO.builder()
-//                .treeId(ruleTree.getTreeId())
-//                .treeName(ruleTree.getTreeName())
-//                .treeDesc(ruleTree.getTreeDesc())
-//                .treeRootRuleNode(ruleTree.getTreeRootRuleKey())
-//                .build();
-//    }
 
 
 }

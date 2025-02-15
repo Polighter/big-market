@@ -17,4 +17,6 @@ public interface IStrategyAwardDao {
     StrategyAward queryStrategyRuleModel(StrategyAward strategyAwardRes);
 
     StrategyAward queryStrategyAwardRule(Long strategyId, Integer awardId);
+
+    void updateStrategyAwardStock(StrategyAward strategyAward);
 }
