@@ -1,6 +1,7 @@
 package org.example.trigger.http;
 
 import org.example.types.common.Constants;
+import org.example.types.enums.ResponseCode;
 import org.example.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,8 @@ public class Controller {
         }
         if (new Random().nextInt(100) == 1) throw new RuntimeException("异常");
         return Response.<String>builder()
-                .code(Constants.ResponseCode.SUCCESS.getCode())
-                .info(Constants.ResponseCode.SUCCESS.getInfo())
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
                 .data("查询用户信息，小傅哥")
                 .build();
     }

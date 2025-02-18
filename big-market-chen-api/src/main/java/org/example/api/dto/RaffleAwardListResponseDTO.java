@@ -1,7 +1,4 @@
-package org.example.domain.strategy.model.entity;
-/*
-* 抽奖奖品实体
-* */
+package org.example.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleAwardEntity {
+public class RaffleAwardListResponseDTO {
 
-    /** 奖品ID */
     private Integer awardId;
-    /** 奖品配置信息 */
-    private String awardConfig;
-    /** 奖品顺序号 */
+
+    private String awardSubtitle;
+    private String awardTitle;
     private Integer sort;
 }
