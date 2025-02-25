@@ -1,8 +1,8 @@
 # 基础镜像
-FROM openjdk:8-jre-slim
+FROM openjdk:17-jdk-slim
 
 # 作者
-MAINTAINER xiaofuge
+MAINTAINER polighter
 
 # 配置
 ENV PARAMS=""
@@ -12,6 +12,6 @@ ENV TZ=PRC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 添加应用
-ADD target/${artifactId}-app.jar /${artifactId}-app.jar
+ADD target/big-market-chen-app.jar /big-market-chen-app.jar
 
-ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /${artifactId}-app.jar $PARAMS"]
+ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /big-market-chen-app.jar $PARAMS"]
