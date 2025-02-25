@@ -70,7 +70,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_USER: xfg
+      MYSQL_USER: cqy
       MYSQL_PASSWORD: 123456
     networks:
       - my-network
