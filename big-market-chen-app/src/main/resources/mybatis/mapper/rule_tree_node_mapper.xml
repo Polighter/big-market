@@ -12,7 +12,7 @@
     </resultMap>
     <select id="queryRuleTreeNodeListByTreeId" parameterType="java.lang.String" resultMap="dataMap"> select tree_id, rule_key, rule_desc, rule_value from rule_tree_node where tree_id = #{treeId} </select>
     <select id="queryRuleLocks" resultMap="dataMap">
-        select tree_id, rule_value from rule_tree_node where rule_key = 'rule_lock' and tree_id in
+        select tree_id, rule_value from big_market.rule_tree_node where rule_key = 'rule_lock' and tree_id in
         <foreach item="treeId" index="index" collection="array" open="(" separator="," close=")"> #{treeId} </foreach>
     </select>
 </mapper>
