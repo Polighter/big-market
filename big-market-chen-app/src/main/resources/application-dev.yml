@@ -27,7 +27,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.139.102:13306/big-market-chen?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+    url: jdbc:mysql://8.148.5.73:13306/big_market?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
     driver-class-name: com.mysql.cj.jdbc.Driver
   hikari:
     pool-name: Retail_HikariCP
@@ -49,7 +49,7 @@ mybatis:
 redis:
   sdk:
     config:
-      host: 192.168.139.102
+      host: 8.148.5.73
       port: 16379
       password: 123456
       pool-size: 10
@@ -68,16 +68,16 @@ dubbo:
     version: 1.0.0
   registry:
     id: nacos-registry
-    address: nacos://192.168.139.102:8848
+    address: nacos://8.148.5.73:8848
   protocol:
     name: dubbo
     port: -1
   scan:
-    base-packages: cn.bugstack.api
+    base-packages: org.example.api
 
 # RocketMQ 配置，在docs/dev-ops下，有创建 xfg-group 脚本，也有场景mq消息的脚本
 rocketmq:
-  name-server: 192.168.139.102:9876
+  name-server: 8.148.5.73:9876
   consumer:
     group: xfg-group
     # 一次拉取消息最大值，注意是拉取消息的最大值而非消费最大值
@@ -105,7 +105,7 @@ xxl:
     accessToken: default_token
     # 注册地址
     admin:
-      addresses: http://192.168.139.102:9090/xxl-job-admin
+      addresses: http://8.148.5.73:9090/xxl-job-admin
     # 注册执行器
     executor:
       #  执行器注册 [选填]：优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址。从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。
