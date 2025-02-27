@@ -23,7 +23,7 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
     private IStrategyRepository repository;
     @Resource
     private IStrategyDispatch strategyDispatch;
-    public Long userScore = 4500L;
+    public Long userScore = 0L;
     @Override
     public DefaultChainFactory.StrategyAwardVO logic(String userId, Long strategyId) {
         log.info("抽奖责任链-规则权重开始 userId:{} strategyId:{} ruleModel:{}",userId,strategyId,ruleModel());
