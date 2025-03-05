@@ -1,5 +1,5 @@
 # 基础镜像
-FROM openjdk:17-jdk-slim
+FROM openjdk:8-jre-slim
 
 # 作者
 MAINTAINER polighter
