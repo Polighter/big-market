@@ -15,12 +15,12 @@
 
     <select id="queryStrategyList" resultMap="dataMap">
         select award_id,award_config,award_desc
-        from big_market.award
+        from big_market_chen.award
         limit 10
     </select>
     <select id="queryStrategyByStrategyId" resultMap="dataMap">
         select strategy_id,strategy_desc,rule_models
-        from big_market.strategy
+        from big_market_chen.strategy
         where strategy_id = #{strategyId}
 
     </select>

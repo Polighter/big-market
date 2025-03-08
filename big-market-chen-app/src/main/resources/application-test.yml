@@ -1,5 +1,15 @@
 server:
   port: 8091
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 50
+    accept-count: 10
+
+app:
+  config:
+    api-version: v1
+    cross-origin: '*'
 
 # 线程池配置
 thread:
@@ -12,12 +22,12 @@ thread:
         block-queue-size: 5000
         policy: CallerRunsPolicy
 
-# 数据库配置
+## 数据库配置 - sharding-jdbc 分库分表
 #spring:
 #  datasource:
 #    username: root
 #    password: 123456
-#    url: jdbc:mysql://127.0.0.1:3306/xfg_frame_archetype?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+#    url: jdbc:mysql://192.168.220.128:13306/big_market_chen?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #  hikari:
 #    pool-name: Retail_HikariCP
@@ -30,9 +40,139 @@ thread:
 #    connection-test-query: SELECT 1
 #  type: com.zaxxer.hikari.HikariDataSource
 
-#mybatis:
-#  mapper-locations: classpath:/mybatis/mapper/*.xml
-#  config-location:  classpath:/mybatis/config/mybatis-config.xml
+mini-db-router:
+  jdbc:
+    datasource:
+      dbCount: 2
+      tbCount: 4
+      default: db00
+      routerKey: userId
+      list: db01,db02
+      db00:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.220.128:13306/big_market_chen?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+        username: root
+        password: 123456
+        type-class-name: com.zaxxer.hikari.HikariDataSource
+        pool:
+          pool-name: Retail_HikariCP
+          minimum-idle: 15 #最小空闲连接数量
+          idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+          maximum-pool-size: 25 #连接池最大连接数，默认是10
+          auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+          max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+          connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+          connection-test-query: SELECT 1
+      db01:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.220.128:13306/big_market_01?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+        username: root
+        password: 123456
+        type-class-name: com.zaxxer.hikari.HikariDataSource
+        pool:
+          pool-name: Retail_HikariCP
+          minimum-idle: 15 #最小空闲连接数量
+          idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+          maximum-pool-size: 25 #连接池最大连接数，默认是10
+          auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+          max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+          connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+          connection-test-query: SELECT 1
+      db02:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.220.128:13306/big_market_02?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+        username: root
+        password: 123456
+        type-class-name: com.zaxxer.hikari.HikariDataSource
+        pool:
+          pool-name: Retail_HikariCP
+          minimum-idle: 15 #最小空闲连接数量
+          idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+          maximum-pool-size: 25 #连接池最大连接数，默认是10
+          auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+          max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+          connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+          connection-test-query: SELECT 1
+
+
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location:  classpath:/mybatis/config/mybatis-config.xml
+
+# Redis
+redis:
+  sdk:
+    config:
+      host: 192.168.220.128
+      port: 16379
+      password: 123456
+      pool-size: 10
+      min-idle-size: 5
+      idle-timeout: 30000
+      connect-timeout: 5000
+      retry-attempts: 3
+      retry-interval: 1000
+      ping-interval: 60000
+      keep-alive: true
+
+# Dubbo
+dubbo:
+  application:
+    name: big-market-chen
+    version: 1.0.0
+  registry:
+    id: nacos-registry
+    address: nacos://192.168.220.128:8848
+  protocol:
+    name: dubbo
+    port: -1
+  scan:
+    base-packages: org.example.api
+
+# RocketMQ 配置，在docs/dev-ops下，有创建 xfg-group 脚本，也有场景mq消息的脚本
+rocketmq:
+  name-server: 192.168.220.128:9876
+  consumer:
+    group: xfg-group
+    # 一次拉取消息最大值，注意是拉取消息的最大值而非消费最大值
+    pull-batch-size: 10
+  producer:
+    # 发送同一类消息的设置为同一个group，保证唯一
+    group: xfg-group
+    # 发送消息超时时间，默认3000
+    sendMessageTimeout: 10000
+    # 发送消息失败重试次数，默认2
+    retryTimesWhenSendFailed: 2
+    # 异步消息重试此处，默认2
+    retryTimesWhenSendAsyncFailed: 2
+    # 消息最大长度，默认1024 * 1024 * 4(默认4M)
+    maxMessageSize: 4096
+    # 压缩消息阈值，默认4k(1024 * 4)
+    compressMessageBodyThreshold: 4096
+    # 是否在内部发送失败时重试另一个broker，默认false
+    retryNextServer: false
+
+# xxl-job https://www.xuxueli.com/xxl-job/#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%9A%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83%E9%85%8D%E7%BD%AE%EF%BC%9A
+xxl:
+  job:
+    # 验证信息 官网Bug https://github.com/xuxueli/xxl-job/issues/1951
+    accessToken: default_token
+    # 注册地址
+    admin:
+      addresses: http://192.168.220.128:9090/xxl-job-admin
+    # 注册执行器
+    executor:
+      #  执行器注册 [选填]：优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址。从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。
+      address:
+      appname: xxl-job-executor-sample
+      # 执行器IP 配置为本机IP [选填]：默认为空表示自动获取IP，多网卡时可手动设置指定IP，该IP不会绑定Host仅作为通讯实用；地址信息用于 "执行器注册" 和 "调度中心请求并触发任务"；
+      ip:
+      # 执行器端口号 [选填]：小于等于0则自动获取；默认端口为9999，单机部署多个执行器时，注意要配置不同执行器端口；
+      port: 9999
+      # 执行器运行日志文件存储磁盘路径 [选填] ：需要对该路径拥有读写权限；为空则使用默认路径；
+      logpath: ./data/applogs/xxl-job/jobhandler
+      # 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；
+      logretentiondays: 30
 
 # 日志
 logging:

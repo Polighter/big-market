@@ -2,4 +2,4 @@ spring:
   config:
     name: xfg-frame-archetype-std-app
   profiles:
-    active: dev
+    active: test

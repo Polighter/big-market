@@ -22,14 +22,14 @@ public class StrategyArmoryTest {
     private IStrategyDispatch strategyDispatch;
     @Test
     public void test_strategyArmory(){
-        strategyArmory.assembleLotteryStrategy(100001L);
+        strategyArmory.assembleLotteryStrategy(100006L);
     }
 
     @Test
     public void test_getAssembleRandomVal(){
-        log.info("测试结果{} - 奖品Id" ,strategyDispatch.getRandomAwardId(100001L));
-        log.info("测试结果{} - 奖品Id" ,strategyDispatch.getRandomAwardId(100001L));
-        log.info("测试结果{} - 奖品Id" ,strategyDispatch.getRandomAwardId(100001L));
+        log.info("测试结果{} - 奖品Id" ,strategyDispatch.getRandomAwardId(100006L));
+        log.info("测试结果{} - 奖品Id" ,strategyDispatch.getRandomAwardId(100006L));
+        log.info("测试结果{} - 奖品Id" ,strategyDispatch.getRandomAwardId(100006L));
     }
 
     @Test

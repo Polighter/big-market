@@ -17,18 +17,18 @@
 
     <select id="queryStrategyRuleList" resultMap="dataMap">
         select award_id,award_config,award_desc
-        from big_market.award
+        from big_market_chen.award
         limit 10
     </select>
     <select id="queryStrategyRule" resultMap="dataMap">
         select strategy_id,award_id,rule_model,rule_type,rule_value,rule_desc
-        from big_market.strategy_rule
+        from big_market_chen.strategy_rule
         where strategy_id = #{strategyId} and rule_model = #{ruleModel}
 
     </select>
     <select id="queryStrategyRuleValue" resultMap="dataMap">
         select rule_value
-        from big_market.strategy_rule
+        from big_market_chen.strategy_rule
         where strategy_id = #{strategyId}  and rule_model = #{ruleModel}
         <if test="awardId != null" >
             and award_id = #{awardId}
@@ -36,7 +36,7 @@
     </select>
     <select id="queryStrategyAwardRule" resultMap="dataMap">
         select rule_model
-        from big_market.strategy_rule
+        from big_market_chen.strategy_rule
         where strategy_id = #{strategyId}
         <if test="awardId != null" >
             and award_id = #{awardId}
